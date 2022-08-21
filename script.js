@@ -2,6 +2,7 @@ let board = ['', '', '',
 '', '', '', 
 '', '', ''];
 
+// 
 const displayController = (() => {
     const updateBoard = (gameBoard, board) => {
         for (let i = 0; i < gameBoard.length; i++) {
@@ -13,12 +14,10 @@ const displayController = (() => {
         if (player1.turn) tracker.textContent = `${player1.name}'s turn`;
         else tracker.textContent = `${player2.name}'s turn`;
     }
-
     return { updateBoard, turnTracker };
 })();
 
 const gameController = (() => {
-
     const placePiece = (object, player1, player2, board) => {
         const blockNumber = Array.from(object.parentElement.children).indexOf(object);
         if (player1.turn && board[blockNumber] === '') {
@@ -30,7 +29,6 @@ const gameController = (() => {
             gameController.playerTurn(player1, player2);
 
         }
-        
         return board;
     }
     const playerTurn = (player1, player2) => {
@@ -68,7 +66,6 @@ const gameController = (() => {
             }
             columnStart += 3;
         }
-
         // diagonal wins
         if (board[0] === board[4] && board [0] === board[8] && board[0] != '') {
             if (board[0] === player1.piece) winner = `${player1.name} wins!`;
@@ -76,7 +73,13 @@ const gameController = (() => {
             console.log(winner)
         }
         else if (board[6] === board[4] && board [6] === board[2] && board[6] != '') {
-            console.log('winboy')
+            if (board[6] === player1.piece) winner = `${player1.name} wins!`;
+            else winner = `${player2.name} wins!`
+            console.log(winner)
+        }
+        // check for tie
+        else if (board.find(space => space === '') === undefined) {
+            console.log('tie!')
         }
     }
     return { playerTurn, placePiece, scoreGame }
