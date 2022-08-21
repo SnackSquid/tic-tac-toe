@@ -14,7 +14,17 @@ const displayController = (() => {
         if (player1.turn) tracker.textContent = `${player1.name}'s turn`;
         else tracker.textContent = `${player2.name}'s turn`;
     }
-    return { updateBoard, turnTracker };
+
+    const displayWin = () => {
+        
+    }
+
+    const reset = () => {
+        const boardArray = document.querySelectorAll('.block')
+        board = ['', '', '', '', '', '', '', '', ''];
+        displayController.updateBoard(boardArray, board);
+    }
+    return { updateBoard, turnTracker, displayWin, reset };
 })();
 
 const gameController = (() => {
@@ -107,5 +117,8 @@ function game(click) {
     gameController.scoreGame(board, player1, player2);
 }
 
-const button = document.querySelectorAll('button');
-button.forEach(button => button.addEventListener('click', game));
+const block = document.querySelectorAll('.block');
+block.forEach(button => button.addEventListener('click', game));
+
+const resetButton = document.querySelector('.restart');
+resetButton.addEventListener('click', displayController.reset);
