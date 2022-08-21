@@ -1,6 +1,6 @@
-let board = ['', '', '', '', '', '', '', '', '', ''];
-
-
+let board = ['', '', '', 
+'', '', '', 
+'', '', ''];
 
 const displayController = (() => {
     const updateBoard = (gameBoard, board) => {
@@ -8,19 +8,27 @@ const displayController = (() => {
             gameBoard[i].textContent = board[i];
         }
     }
+    const turnTracker = (player1, player2) => {
+        const tracker = document.querySelector('.playerDisplay');
+        if (player1.turn) tracker.textContent = `${player1.name}'s turn`;
+        else tracker.textContent = `${player2.name}'s turn`;
+    }
 
-    return { updateBoard  };
+    return { updateBoard, turnTracker };
 })();
 
-const gameController = ((player1, player2) => {
+const gameController = (() => {
 
     const placePiece = (object, player1, player2, board) => {
         const blockNumber = Array.from(object.parentElement.children).indexOf(object);
-        if (player1.turn) {
+        if (player1.turn && board[blockNumber] === '') {
             board[blockNumber] = player1.piece;
+            gameController.playerTurn(player1, player2);
         }
-        else {
+        else if (player2.turn && board[blockNumber] === '') {
             board[blockNumber] = player2.piece;
+            gameController.playerTurn(player1, player2);
+
         }
         
         return board;
@@ -35,7 +43,43 @@ const gameController = ((player1, player2) => {
             player2.turn = false;
         }
     }
-    return { playerTurn, placePiece }
+
+    const scoreGame = (board, player1, player2) => {
+        let rowStart = 0;
+        let columnStart = 0;
+        let winner = '';
+        // row wins
+        for (let i = 0; i < 3; i++) {
+            if (board[rowStart] === board[rowStart + 1] && board[rowStart] === board[rowStart + 2] && board[rowStart] != '') {
+                if (board[rowStart] === player1.piece) winner = `${player1.name} wins!`;
+                else winner = `${player2.name} wins!`
+                console.log(winner)
+                break
+            }
+            rowStart += 3;
+        }
+        // column wins
+        for (let i = 0; i < 3; i++) {
+            if (board[columnStart] === board[columnStart + 3] && board[columnStart] === board[columnStart + 6] && board[columnStart] != '') {
+                if (board[columnStart] === player1.piece) winner = `${player1.name} wins!`;
+                else winner = `${player2.name} wins!`
+                console.log(winner)
+                break
+            }
+            columnStart += 3;
+        }
+
+        // diagonal wins
+        if (board[0] === board[4] && board [0] === board[8] && board[0] != '') {
+            if (board[0] === player1.piece) winner = `${player1.name} wins!`;
+            else winner = `${player2.name} wins!`
+            console.log(winner)
+        }
+        else if (board[6] === board[4] && board [6] === board[2] && board[6] != '') {
+            console.log('winboy')
+        }
+    }
+    return { playerTurn, placePiece, scoreGame }
 })();
 
 const Player = (name, piece, turn) => {
@@ -48,6 +92,7 @@ const Player = (name, piece, turn) => {
 
 let player1 = Player('Dog', 'X', true);
 let player2 = Player('Cat', 'O', false);
+displayController.turnTracker(player1, player2);
 
 function game(click) {
     click.stopPropagation();
@@ -55,7 +100,8 @@ function game(click) {
     const boardArray = document.querySelectorAll('.block')
     gameController.placePiece(this, player1, player2, board);
     displayController.updateBoard(boardArray, board);
-    gameController.playerTurn(player1, player2);
+    displayController.turnTracker(player1, player2);
+    gameController.scoreGame(board, player1, player2);
 }
 
 const button = document.querySelectorAll('button');
