@@ -9,23 +9,43 @@
     <title>Tic Tac Toe</title>
 </head>
 <body>
-    <div class="header">
-        <h1>Tic-Tac-Toe</h1>
-        <div class="playerDisplay"></div>
-    </div>
-    <div class="boardWrapper">
-        <div class="gameBoard">
-            <button class="block"></button>
-            <button class="block"></button>
-            <button class="block"></button>
-            <button class="block"></button>
-            <button class="block"></button>
-            <button class="block"></button>
-            <button class="block"></button>
-            <button class="block"></button><button class="block"></button>
+    <div class="container">
+        <div class="header">
+            <h1>Tic-Tac-Toe</h1>
+            <div class="playerDisplay">
+            </div>
         </div>
+        <div class="playerInputWrapper">
+            <div class="player1Input">
+                <form action="">
+                    <label for="player1Name">Player one's name</label>
+                    <input type="text" name="player1Name" id="player1Name" placeholder="Enter your name" minlength="1">
+                    <button class="playerReady" id="player1Ready">Ready!</button>
+                </form>
+            </div>
+            <div class="player2Input">
+                <form action="">
+                    <label for="player2Name">Player two's name</label>
+                    <input type="text" name="playerName" id="player2Name" placeholder="Enter your name" minlength="2" maxlength="25">
+                    <button class="playerReady" id="player2Ready">Ready!</button>
+                </form>
+            </div>
+            <div class="endMessage">
+            </div>
+        </div>
+        <div class="boardWrapper">
+            <div class="gameBoard">
+                <button class="block"></button>
+                <button class="block"></button>
+                <button class="block"></button>
+                <button class="block"></button>
+                <button class="block"></button>
+                <button class="block"></button>
+                <button class="block"></button>
+                <button class="block"></button><button class="block"></button>
+            </div>
+        </div>
+        <div class="footer"><button class="restart">Restart</button></div>
     </div>
-    <div class="footer"><button class="restart">Restart</button></div>
-   
 </body>
 </html>
